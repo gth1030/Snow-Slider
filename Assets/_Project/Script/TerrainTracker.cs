@@ -11,9 +11,9 @@ public class TerrainTracker : MonoBehaviour {
     public int aliveZoneCounter;
     [HideInInspector]
     public bool playerAlive;
+    [HideInInspector] public bool onSnow;
 
 
-    private bool onSnow;
     private int aliveZoneLayer;
     private Rigidbody rb;
 
@@ -36,11 +36,6 @@ public class TerrainTracker : MonoBehaviour {
             onSnow = false;
     }
 
-    public void ReSet()
-    {
-        onSnow = false;
-        playerAlive = true;
-    }
 
 
     void Update()
@@ -57,14 +52,13 @@ public class TerrainTracker : MonoBehaviour {
             }
 
         }
-
         if (aliveZoneCounter > 0)
         {
             aliveZoneCounter--;
         } else
         {
             if (Time.time > 1)
-                playerAlive = false;
+                GetComponent<PlayerHealth>().health = 0;
         }
     }
 

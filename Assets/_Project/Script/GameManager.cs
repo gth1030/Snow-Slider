@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public Transform spawnPoint;
     public CameraController m_cameraControll;
     public Text restartText;
+    public GameObject[] barrels;
 
     private WaitForSeconds m_startWait;
     private WaitForSeconds m_endWait;
@@ -46,6 +47,14 @@ public class GameManager : MonoBehaviour {
         player.instance.transform.position = spawnPoint.transform.position;
         player.instance.transform.rotation = spawnPoint.transform.rotation;
         player.ReSet();
+        if (barrels != null)
+        {
+            foreach (GameObject barrel in barrels)
+            {
+                barrel.GetComponent<RollBarrel>().BarrelSetup();
+                barrel.GetComponent<RollBarrel>().ableMoves();
+            }
+        }
         yield return m_startWait;
     }
 
@@ -53,11 +62,15 @@ public class GameManager : MonoBehaviour {
     {
 
 
-        while (player.m_terrainTracker.playerAlive)
+        while (player.instance.GetComponent<PlayerHealth>().isAlive())
         {
             yield return null;
         }
-        player.instance.gameObject.SetActive(false);
+        foreach (GameObject barrel in barrels)
+        {
+            barrel.GetComponent<RollBarrel>().disableMoves();
+        }
+        player.instance.GetComponent<PlayerHealth>().onDeath();
         restart = true;
     }
 

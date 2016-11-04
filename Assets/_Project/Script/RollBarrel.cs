@@ -10,26 +10,39 @@ public class RollBarrel : MonoBehaviour {
     [HideInInspector] public bool turning;
 
 
-    private Transform initialPosition;
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+    private Quaternion toRotation;
+    private Rigidbody rb;
+    private bool active;
     private float[] rollPatternX;
     private float[] rollPatternZ;
     private float[] nextDestination;
-    private Rigidbody rb;
     private int locationCounter;
-    private Quaternion toRotation;
+    
 
 	void Start () {
+        active = false;
         rb = GetComponent<Rigidbody>();
-        initialPosition = transform;
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
         rollPatternX = new float[rollPositionsX.Length + 1];
         rollPatternZ = new float[rollPositionsZ.Length + 1];
         for (int i = 0; i < rollPositionsX.Length; i++)
         {
-            rollPatternX[i] = rollPositionsX[i] + initialPosition.position.x;
-            rollPatternZ[i] = rollPositionsZ[i] + initialPosition.position.z;
+            rollPatternX[i] = rollPositionsX[i] + initialPosition.x;
+            rollPatternZ[i] = rollPositionsZ[i] + initialPosition.z;
         }
-        rollPatternX[rollPatternX.Length - 1] = initialPosition.position.x;
-        rollPatternZ[rollPatternZ.Length - 1] = initialPosition.position.z;
+        rollPatternX[rollPatternX.Length - 1] = initialPosition.x;
+        rollPatternZ[rollPatternZ.Length - 1] = initialPosition.z;
+    }
+
+    public void BarrelSetup()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
         nextDestination = new float[] { rollPatternX[0], rollPatternZ[0] };
         locationCounter = 0;
         turning = false;
@@ -85,10 +98,13 @@ public class RollBarrel : MonoBehaviour {
 
 
 	void Update () {
-        if (!turning)
-            move();
-        else
-            rotateBarrel();
+        if (active)
+        {
+            if (!turning)
+                move();
+            else
+                rotateBarrel();
+        }
 	
 	}
 
@@ -96,4 +112,21 @@ public class RollBarrel : MonoBehaviour {
     {
         return Mathf.Sqrt(Mathf.Pow(v1.x - v2.x, 2) + Mathf.Pow(v1.z - v2.z, 2));
     }
+
+    public void disableMoves()
+    {
+        active = false;
+        rb.useGravity = true;
+        GetComponent<Collider>().isTrigger = false;
+    }
+
+    public void ableMoves()
+    {
+        active = true;
+        rb.useGravity = false;
+        GetComponent<Collider>().isTrigger = true;
+    }
+
+
+
 }

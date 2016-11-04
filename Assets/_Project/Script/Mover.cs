@@ -9,9 +9,11 @@ public class Mover : MonoBehaviour {
     [HideInInspector] public float moveVertical;
 
     private Rigidbody rb;
+    private TerrainTracker terraintracker;
 
 	void Start () {
         rb = GetComponent<Rigidbody>();
+        terraintracker = GetComponent<TerrainTracker>();
     }
 
     private void Turn()
@@ -25,8 +27,10 @@ public class Mover : MonoBehaviour {
 
     void FixedUpdate()
     {
+        
         moveHorizontal = Input.GetAxis("Horizontal");
-        moveVertical = Input.GetAxis("Vertical");
+        if (!terraintracker.onSnow)
+            moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = transform.forward * moveVertical * speed * Time.deltaTime;
         rb.MovePosition(rb.position + movement);
         Turn();

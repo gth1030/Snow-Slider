@@ -11,7 +11,7 @@ public class EnemyCollider : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
-            other.GetComponent<TerrainTracker>().playerAlive = false;
+            other.GetComponent<PlayerHealth>().health = 0;
     }
 
     // Update is called once per frame
