@@ -3,11 +3,10 @@ using System.Collections;
 
 public class RollBarrel : MonoBehaviour {
 
-    public float[] rollPositionsX;
-    public float[] rollPositionsZ;
-    public float speed;
-    public float rotateSpeedRatio;
+
     [HideInInspector] public bool turning;
+    [HideInInspector] public float speed;
+    [HideInInspector] public float rotateSpeedRatio;
 
 
     private Vector3 initialPosition;
@@ -19,10 +18,15 @@ public class RollBarrel : MonoBehaviour {
     private float[] rollPatternZ;
     private float[] nextDestination;
     private int locationCounter;
+
     
 
-	void Start () {
+
+    public void BarrelInitialize(float[] rollPositionsX, float[] rollPositionsZ, float rollSpeed, float rollRotateSpeedRatio)
+    {
+        rotateSpeedRatio = rollRotateSpeedRatio;
         active = false;
+        speed = rollSpeed;
         rb = GetComponent<Rigidbody>();
         initialPosition = transform.position;
         initialRotation = transform.rotation;
@@ -37,7 +41,9 @@ public class RollBarrel : MonoBehaviour {
         rollPatternZ[rollPatternZ.Length - 1] = initialPosition.z;
     }
 
-    public void BarrelSetup()
+
+
+    public void BarrelReSet()
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
@@ -108,7 +114,7 @@ public class RollBarrel : MonoBehaviour {
 	
 	}
 
-    private float getEstimate2Ddistance(Vector3 v1, Vector3 v2)
+    private static float getEstimate2Ddistance(Vector3 v1, Vector3 v2)
     {
         return Mathf.Sqrt(Mathf.Pow(v1.x - v2.x, 2) + Mathf.Pow(v1.z - v2.z, 2));
     }

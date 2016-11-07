@@ -125,6 +125,7 @@
     <Compile Include="Assets\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\_Project\Script\BarrelSpawnInfo.cs" />
     <Compile Include="Assets\_Project\Script\CameraController.cs" />
     <Compile Include="Assets\_Project\Script\EnemyCollider.cs" />
     <Compile Include="Assets\_Project\Script\GameManager.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Assets\_Project\Script\PlayerHealth.cs" />
     <Compile Include="Assets\_Project\Script\PlayerManager.cs" />
     <Compile Include="Assets\_Project\Script\RollBarrel.cs" />
+    <Compile Include="Assets\_Project\Script\SpawnBarrel.cs" />
     <Compile Include="Assets\_Project\Script\TerrainTracker.cs" />
     <Compile Include="Assets\_Project\Script\rollOnMove.cs" />
   </ItemGroup>
