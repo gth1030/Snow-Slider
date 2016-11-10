@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour {
     private SpawnBarrel spawnBarrels;
 
 
-	void Start () {
+    public void InitializeGame()
+    {
         m_startWait = new WaitForSeconds(m_startDelay);
         m_endWait = new WaitForSeconds(m_endDelay);
         createPlayer();
@@ -33,8 +34,14 @@ public class GameManager : MonoBehaviour {
         }
 
         StartCoroutine(gameLoop());
-	
-	}
+
+    }
+
+    void Start () {
+        restartText.text = "";
+
+    }
+    
 
     IEnumerator gameLoop()
     {
@@ -100,6 +107,7 @@ public class GameManager : MonoBehaviour {
         player.instance = Instantiate(playerPrefeb, spawnPoint.position, spawnPoint.rotation) as GameObject;
         player.SetUp();
         m_cameraControll.target = player.instance;
+        GetComponent<PauseManager>().player = player.instance;
     }
 
 }

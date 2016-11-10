@@ -7,21 +7,22 @@ public class TerrainTracker : MonoBehaviour {
 
     public float minSlideSpeed;
     public float artificial_gravity;
-    [HideInInspector]
-    public int aliveZoneCounter;
-    [HideInInspector]
-    public bool playerAlive;
+    [HideInInspector] public int aliveZoneCounter;
+    [HideInInspector] public bool playerAlive;
     [HideInInspector] public bool onSnow;
+    [HideInInspector] public bool isPause;
 
 
     private int aliveZoneLayer;
     private Rigidbody rb;
+
 
 	// Use this for initialization
 	void Start () {
         onSnow = false;
         rb = GetComponent<Rigidbody>();
         aliveZoneLayer = LayerMask.NameToLayer("Alive Zone");
+        isPause = false;
 	}
 	
 
@@ -29,7 +30,7 @@ public class TerrainTracker : MonoBehaviour {
     void OnTriggerStay (Collider other)
     {
         if (other.gameObject.layer == aliveZoneLayer)
-            aliveZoneCounter = 2;
+            aliveZoneCounter = 3;
         if (other.tag == "snow zone")
             onSnow = true;
         else if (other.tag == "safe zone")
@@ -52,13 +53,18 @@ public class TerrainTracker : MonoBehaviour {
             }
 
         }
-        if (aliveZoneCounter > 0)
+        if (!isPause)
         {
-            aliveZoneCounter--;
-        } else
-        {
-            if (Time.time > 1)
-                GetComponent<PlayerHealth>().health = 0;
+            Debug.Log(aliveZoneCounter);
+            if (aliveZoneCounter > 0)
+            {
+                aliveZoneCounter--;
+            }
+            else
+            {
+                if (Time.time > 1)
+                    GetComponent<PlayerHealth>().health = 0;
+            }
         }
     }
 
